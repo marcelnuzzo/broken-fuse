@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>fuse broken</title>		
+    </head>
+	<style>
+		body {
+			font-face:Arial;
+			font-size:20px;
+		}
+		
+		form {
+			border: 2px solid #333;
+			background-color:#ADE;
+		}
+	</style>
+    <body>		
+		<h1>Consumption</h1>
+		<p>
+			<label for="nbAccessories">Enter a number of equipements</label>
+			<input type="number" id="nbAccessories" />
+		</p>
+		<p>
+			<label for="nbActivate">Enter a number of push button</label>
+			<input type="number" id="nbActivate"  />
+		</p>
+		<p>
+			<label for="consumptionMax">Enter a max consuption</label>
+			<input type="number" id="consumptionMax" />
+		</p>
+		<p>
+			<label for="number1">List of consumptions</label>
+			<select id="number1"  ></select><button onclick="enter1()">Ok</button>
+			<div id="currentAccessories">Accessories consumption (in ampere): </div>
+			<div id="divCounter"></div>
+		</p>
+		<p><!--
+			<label for="number2" id="number2" >Ids button</label>
+			<select id="number2"></select><button onclick="enter2()">Ok</button>-->
+		</p>
+		
+		<p>
+			<!--<div id="button">button id : </div>-->
+			<div id="divCtr"></div>
+		</p>
+		<p>
+			<div id="ident"></div>
+		</p>
+		<p>
+			<div id="sum"></div>
+		</p>
+    </body>
+	
+	<script>		
+		//array to insert the differents id of buttons
+		let idNumber=new Array();
+		//array to insert the different comsumptions of accessories
+		let arr=new Array();
+		
+		let counter=0;
+		
+		let ctr=0;
+		//variable for add the currents
+		let sum=0;
+			
+		let x=0;
+		let b=0;
+		let c=0;
+		let z=0;
+		let opt=0;
+		let identBt=0;
+		//loop for each current
+		for(let i=1;i<=100;i++) {
+			let y=i;
+			let opt=document.createElement("option");
+			opt.innerHTML=y;
+			number1.appendChild(opt);
+		}
+		
+		//function for enter each consumption
+		function enter1() {
+			let max=true;
+			counter++;
+			if(counter <= nbAccessories.value) {
+				max=true;
+				divCounter.innerHTML="number of accessories : " + counter;
+				let index=number1.selectedIndex;
+				let num=number1.options[index].text;
+				currentAccessories.innerHTML += num + " ; ";
+				arr.push(number1.value);
+			} else {
+				max=false;
+			}
+			if(counter==nbAccessories.value)
+				selection();
+		}
+		
+		function selection() {
+			let obj=document.createElement("select");
+			document.body.appendChild(obj);
+			obj.setAttribute("id","selectionId");
+			for(let i=1;i<=nbActivate.value;i++) {
+						z=i;
+						opt=document.createElement("option");
+						opt.innerHTML=z;
+						obj.appendChild(opt);
+						
+			}
+			let toto=document.createElement("button");
+			let t = document.createTextNode("click");
+			toto.appendChild(t);
+			document.body.appendChild(toto);
+			toto.addEventListener("click",enter2);
+			//document.getElementsByTagName("select")[0].setAttribute("id", "popo"); 
+		}
+		
+		//function for enter each button ids
+		function enter2() {
+			
+			let max=true;
+			ctr++;
+			if(ctr <= nbActivate.value) {
+				max=true;
+				divCtr.innerHTML="number of button press : " + ctr;
+				identBt=selectionId.value;
+				
+			} else {
+				max=false;
+				sort();
+			}
+		}
+
+		if(nbActivate.value>1)
+			enter2();
+		//function to add each current
+		function add() {
+			x += parseInt(number1.value);
+			document.getElementById("sum").innerHTML = "sum of currents : " + x;
+			broken();
+		}
+		
+		//function to substract the current when the id is repeat
+		function sub() {
+			x -= parseInt(number1.value);
+			document.getElementById("sum").innerHTML = "sum of currents : " + x;
+		}
+		
+		function broken() {
+			if(x >= consumptionMax.value)
+				alert("fuse broken");
+		}
+		
+		function sort() {
+			let a = idNumber[0];
+			for(let i=0; i<nbActivate; i++) {
+				for(let i=0; i<nbActivate; i++) {
+					b=idNumber.indexOf(idNumber[j]);
+					if(b<0) {
+						add();
+						alert("toto");
+					}
+					else {
+						c=b;
+						number1.value=arr[c];
+						sub();
+					}
+				}
+			}
+		}
+		
+		/*
+		function sort() {
+			if(idNumber.length < 1) {
+				add();
+			}
+			if(idNumber.length == 1) {
+				let a=0;
+				if(number2.value==idNumber[0])
+					sub();
+				else
+					add();
+			}
+			arr.push(number1.value);
+			idNumber.push(number2.value);
+		}
+		*/
+	</script>
+	
+</html>
